@@ -1,29 +1,44 @@
 
-import csv as csv
 import time
-import sys
 
 def timed_csv_reader(inputFile, accessmode = 'rb'):
-    start_time = time.time()
-    print 'Opening file:\t' + inputFile
-    out = []
-    open_file = open(inputFile, accessmode)
-    file_to_str = open_file.read()
-    print 'Splitting lines...'
-    line_split = file_to_str.split('\n')
-    line_count = float( len(line_split))
-    current_line = 0
-    bar = 0.0
+    print '\nOpening file:\t' + inputFile
+    
     INCREMENT = 0.05
-    print 'Starting ',
-    while len( line_split[ current_line]) > 0:
-        if current_line/line_count > bar:
-            sys.stdout.write('.')#unichr(9659))
-            bar += INCREMENT
-        temp = line_split[ current_line]#.split(',')
-        out.append(temp)
-        current_line += 1
+    TIMEOUT = 60*3
+    ind = 0
+    bar = 0.0
+    out = []
+    start_time = time.time()
+    
+    print 'Starting',
+    with open(inputFile, accessmode) as open_file:
+        
+        new_file = open_file.readlines()
+        line_count = float( len( new_file))
+        
+        for line in new_file:
+            
+            if ind/line_count > bar:
+                print '.',
+                bar += INCREMENT
+                
+            temp = line.split(',')
+            out.append(temp)
+            ind += 1
+            test = time.time()-start_time
+            if test > TIMEOUT: 
+                print '\nProcess failed:\tout of time',
+                print round(time.time()-start_time, 2), 'seconds'
+                return None
+                
     print ' Done!'
     print 'Completed in:', round(time.time()-start_time, 2), 'seconds'
     return out
 
+t = timed_csv_reader('data/bids.csv', 'rb')
+#try:
+#    print type(t), type(t[0])
+#    print len(t), len(t[0])
+#except:
+#    pass

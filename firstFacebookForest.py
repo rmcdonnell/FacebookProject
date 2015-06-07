@@ -8,6 +8,7 @@ Created on Fri Jun  5 18:32:30 2015
 import csv as csv
 import numpy as np
 import pandas as pd
+from my_csv_reader import timed_csv_reader
 
 train = []
 train_csv_file_obj = csv.reader(open('train.csv', 'rb'))
