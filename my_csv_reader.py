@@ -1,11 +1,11 @@
 
 import time
 
-def timed_csv_reader(inputFile, accessmode = 'rb'):
+def timed_csv_reader(inputFile, accessmode = 'rb', timout = 0):
     print '\nOpening file:\t' + inputFile
     
     INCREMENT = 0.05
-    TIMEOUT = 60*3
+    TIMEOUT = 60*timout
     ind = 0
     bar = 0.0
     out = []
@@ -27,7 +27,7 @@ def timed_csv_reader(inputFile, accessmode = 'rb'):
             out.append(temp)
             ind += 1
             test = time.time()-start_time
-            if test > TIMEOUT: 
+            if test > TIMEOUT and TIMEOUT > 0: 
                 print '\nProcess failed:\tout of time',
                 print round(time.time()-start_time, 2), 'seconds'
                 return None
@@ -36,7 +36,7 @@ def timed_csv_reader(inputFile, accessmode = 'rb'):
     print 'Completed in:', round(time.time()-start_time, 2), 'seconds'
     return out
 
-t = timed_csv_reader('data/bids.csv', 'rb')
+#t = timed_csv_reader('data/bids.csv', 'rb')
 #try:
 #    print type(t), type(t[0])
 #    print len(t), len(t[0])

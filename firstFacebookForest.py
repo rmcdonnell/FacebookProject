@@ -5,18 +5,28 @@ Created on Fri Jun  5 18:32:30 2015
 @author: bmcdonnell
 """
 
-import csv as csv
 import numpy as np
 import pandas as pd
 from my_csv_reader import timed_csv_reader
+#train_df = pd.read_csv('data/train.csv', header=0) 
+#test_df = pd.read_csv('data/test.csv', header=0) 
+#bids_df = pd.read_csv('data/bids.csv', header=0) 
 
-train = []
-train_csv_file_obj = csv.reader(open('train.csv', 'rb'))
-for row in train_csv_file_obj:
-    train.append(row)
+train = timed_csv_reader('data/train.csv', 'rb')
     
-test = []
-test_csv_file_obj = csv.reader(open('test.csv', 'rb'))
-for row in test_csv_file_obj:
-    test.append(row)
+test = timed_csv_reader('data/test.csv', 'rb')
+
+bids = timed_csv_reader('data/bids.csv', 'rb')
+
+print train[0]
+try:
+    print bids[0]
+except:
+    pass
+#test:['bidder_id', 'payment_account', 'address', 'outcome\n']
+    
+#bids:['bid_id', 'bidder_id', 'auction', 'merchandise', 'device', 'time', 
+#    'country', 'ip', 'url\n']
+
+
 
